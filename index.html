@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="WallifyApp">
+<head>
+	<meta charset="utf-8">
+	<title>Wallify</title>
+	<meta name="description" content="Automagically create desktop and phone wallpaper from your Spotify album art.">
+	<meta name="author" content="">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="http://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+	<link rel="stylesheet" href="bower_components/skeleton/css/normalize.css">
+	<link rel="stylesheet" href="bower_components/skeleton/css/skeleton.css">
+	<link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="bower_components/angular-busy/dist/angular-busy.min.css">
+	<link rel="stylesheet" href="css/wallify.css">
+
+</head>
+<body ng-controller="MainController">
+	<div class="container" ng-show="error" ng-cloak>
+		<div class="row" style="margin-top: 120px; background-color:#ffe3e1;padding:25px;">
+			<h3><i class='fa fa-exclamation-triangle'></i> Whoopsies!</h3>
+			<h5>{{error}}</h5>
+			<button class='button button-primary' ng-click="error = null">Alright Then</button>
+		</div>
+	</div>
+
+	<div class="container" ng-show="init" style="margin-top: 120px" ng-cloak>
+		<div class="row">
+			<div class="nine columns">
+				<h1>Wallify</h1>
+				<p>Automagically create desktop and phone wallpaper from your Spotify album art.</p>
+			</div>
+			<div class="three columns" style='text-align:right' ng-show="user.images[0].url">
+				<p style='font-size:130%;'>{{user.display_name}}<br><img ng-src='{{user.images[0].url}}' id='profilepic'>
+			</div>
+		</div>
+		<div class="row">
+			<hr>
+		</div>
+		<div class="row" ng-show="!isLoggedIn">
+			<h2>Login</h2>
+			<p>To login, please click below and authenticate with Spotify.
+			<p><a class="button button-primary" href="https://accounts.spotify.com/authorize?client_id=256acfbe8408488eafdca80594f31b31&response_type=token&redirect_uri=http://wallify.local/">Login with Spotify</a>
+		</div>
+		<div class="row" ng-show="loading && !serverOffline">
+			<p><h3><i class='fa fa-cog fa-spin'></i> Hang tight...</h3>
+			<div ng-show="reallyLong">This might be a little while, especially if there are many covers involved. Making magic takes time!</div></p>
+		</div>
+		<div class="row" ng-show="serverOffline">
+			<p><h3><i class='fa fa-frown-o'></i> Sorry, our server couldn't be reached.</h3>
+			<div>We couldn't reach the wallpaper-making server. It may be temporarily offline.</div></p>
+		</div>
+		<div ng-show="wallpaper" class="wallpaper">
+			<h2>Here you go!</h2>
+			<p><i>Right-click to save, click to enlarge.</i>
+			<p><a href='{{wallpaper}}'><img ng-src="{{wallpaper}}"></a>
+			<hr>
+		</div>
+		<div class="row" ng-show="isLoggedIn && !loading">
+			<p ng-if="playlist" style='float:right;'>
+				<img ng-src="{{playlist.image}}" style='width:300px;height:300px;'>
+			</p>
+			<h2>Choose a Playlist</h2>
+			<p>
+				<select ng-model="selectedPlaylistID" ng-change="showPlaylist()">
+					<option value="">Select...</option>
+					<option ng-repeat="playlist in playlists" value="{{playlist.id}}">{{playlist.name}}</option>
+				</select>
+			</p>
+			<div ng-show="selectedPlaylistID">
+				<h2>Choose Your Screen Size</h2>
+				<p><select ng-model="screensize">
+					<option value="">Select...</option>
+					<option value="4096x2160">4K (4096x2160)</option>
+					<option value="2160x4096">4K Vertical (2160x4096)</option>
+					<option value="1920x1080">1080p (1920x1080)</option>
+					<option value="1080x1920">1080p Vertical, iPhone 6/Plus (1080x1920)</option>
+					<option value="1280x720">720p (1280x720)</option>
+					<option value="640x1136">iPhone 5/5s/5c (640x1136)</option>
+					<option value="1536x2048">iPad w/ Retina (1536x2048)</option>
+					<option value="768x1024">iPad mini (768x1024)</option>
+					<option value="1366x768">1366x768</option>
+					<option value="1280x1024">1280x1024</option>
+					<option value="1024x768">1024x768</option>
+				</select></p>
+			</div>
+			<div ng-show="screensize && selectedPlaylistID">
+				<h2>How many covers?</h2>
+				<p><input type="number" ng-model="coversWide" size="3"> covers horizontally.
+				<p><a class="button button-primary" ng-click="makeWallpaper()">Make It So</a></p>
+			</div>
+		</div>
+		<hr>
+		<div class="row footer">
+			<pre><a href='http://www.modernmcguire.com'>made by Tommy McGuire</a> &nbsp; &mdash; &nbsp; <i class='fa fa-github'></i> <a href='#'>GitHub</a> &nbsp; &mdash; &nbsp; enjoy Wallify? <span ng-click="showTipping = true" class='sendlove'>send some <i class='fa fa-heart'></i> to the servers</span><div ng-if="showTipping">Thanks, friend! <a href='http://sirthom.tip.me'>Send a tip with ChangeTip</a>, or to Bitcoin Wallet 1EjANaNQUFtGDVaXPH8K1dwnbtpxzvX82d</div>
+			</pre>
+		</div>
+	</div>
+
+	<!-- End Document
+	–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+	<script src="bower_components/angular/angular.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-cookies.min.js"></script>
+	<script src="js/wallify.js"></script>
+</body>
+</html>

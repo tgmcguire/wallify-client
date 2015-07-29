@@ -1,0 +1,22 @@
+{
+  "name": "Wallify",
+  "version": "0.0.1",
+  "homepage": "https://github.com/tgmcguire/wallify",
+  "authors": [
+    "Tommy McGuire"
+  ],
+  "description": "Automatically create beautiful desktop wallpaper using your tracks on Spotify.",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "skeleton": "~2.0.4",
+    "angular": "~1.4.0",
+    "fontawesome": "~4.3.0"
+  }
+}

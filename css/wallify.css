@@ -1,0 +1,44 @@
+[ng\:cloak], [ng-cloak], .ng-cloak  {
+	display:none !important
+}
+
+body {
+	background-color: #222;
+	color: #eee;
+}
+
+input {
+	width: 50px;
+}
+
+input, select {
+	color: #222;
+}
+
+.button.button-primary {
+	color: #fff;
+	background-color: #1ED760;
+	border-color: #1ED760;
+}
+
+.button.button-primary:hover, .button.button-primary:active {
+	background: #25ac3f;
+	border-color: #25ac3f;
+}
+
+.footer a, .footer {
+	color: #ccc;
+}
+
+.wallpaper img {
+	max-width: 100%;
+}
+
+.sendlove {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+#profilepic {
+	height: 40px;
+}
